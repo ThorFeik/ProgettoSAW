@@ -6,7 +6,7 @@ const messages = {
   'auth/invalid-credential': 'Email o password non corrette.',
   'auth/invalid-email': 'Controlla l\'indirizzo email.',
   'auth/too-many-requests': 'Troppi tentativi. Riprova tra qualche minuto.',
-  'auth/network-request-failed': 'Nessuna connessione: per accedere serve internet.'
+  'auth/network-request-failed': 'Nessuna connessione: controlla la connesione internet.'
 }
 
 export default function Login({ online }) {
@@ -43,7 +43,7 @@ export default function Login({ online }) {
             <input type="password" required autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
           </label>
           {error && <p className="error" role="alert">{error}</p>}
-          {!online && <p className="error">Sei offline: per accedere serve la connessione.</p>}
+          {!online && <p className="error">Sei offline: per accedere serve la connessione a internet.</p>}
           <button className="primary" disabled={busy}>{busy ? 'Accesso in corso…' : 'Accedi'}</button>
         </form>
       </div>
