@@ -1,7 +1,7 @@
 :root {
   --ink: #16323a;
   --muted: #5d767c;
-  --bg: #f4f8f8;
+  --bg: #f8f4f4;
   --panel: #ffffff;
   --line: #d6e3e4;
   --teal: #14505c;
@@ -168,3 +168,13 @@ button.round { width: 2.2rem; height: 2.2rem; padding: 0; border-radius: 50%; fo
   .mcell { padding: .15rem; }
   .chip b { display: none; }
 }
+
+/* Colori campione */
+.swatches { display: flex; flex-wrap: wrap; gap: .45rem; }
+.swatch { width: 1.7rem; height: 1.7rem; border-radius: 50%; border: 2px solid var(--panel); box-shadow: 0 0 0 1px var(--line); padding: 0; }
+.swatch:hover { transform: scale(1.12); }
+.swatch.on { box-shadow: 0 0 0 2px var(--ink); }
+.color-list li { flex-wrap: wrap; }
+.color-list .label { min-width: 7.5rem; font-weight: 600; }
+.color-list .grow { min-width: 12rem; }
+.color-list .full { flex: 1 1 100%; }

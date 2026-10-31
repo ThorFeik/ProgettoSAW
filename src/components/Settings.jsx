@@ -1,7 +1,30 @@
 import { useState } from 'react'
 import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../firebase'
-import { DEFAULT_STATUS_COLORS, DOCTOR_PALETTE, STATI } from '../settings'
+import { COLOR_PALETTE, DEFAULT_STATUS_COLORS, DOCTOR_PALETTE, STATI } from '../settings'
+
+// Selettore a colori campione (cerchi cliccabili)
+function Swatches({ value, onChange, label }) {
+  // Se il colore salvato non è nella tavolozza (es. impostato in passato) lo mostra come "Personalizzato"
+  const options = COLOR_PALETTE.some((c) => c.hex === value) ? COLOR_PALETTE : [...COLOR_PALETTE, { hex: value, nome: 'Personalizzato' }]
+  return (
+    <div className="swatches" role="radiogroup" aria-label={label}>
+      {options.map((c) => (
+        <button
+          type="button"
+          key={c.hex}
+          role="radio"
+          aria-checked={c.hex === value}
+          aria-label={c.nome}
+          title={c.nome}
+          className={`swatch ${c.hex === value ? 'on' : ''}`}
+          style={{ background: c.hex }}
+          onClick={() => onChange(c.hex)}
+        />
+      ))}
+    </div>
+  )
+}
 
 // Visibile solo agli account admin (e scrivibile solo da loro: vedi firestore.rules)
 export default function Settings({ settings }) {
@@ -43,8 +66,8 @@ export default function Settings({ settings }) {
           <ul className="color-list">
             {STATI.map((s) => (
               <li key={s}>
-                <input type="color" aria-label={`Colore ${s}`} value={colors[s]} onChange={touch((e) => setColors({ ...colors, [s]: e.target.value }))} />
-                <span>{s}</span>
+                <span className="label">{s}</span>
+                <Swatches label={`Colore ${s}`} value={colors[s]} onChange={touch((hex) => setColors({ ...colors, [s]: hex }))} />
               </li>
             ))}
           </ul>
@@ -60,11 +83,13 @@ export default function Settings({ settings }) {
           <ul className="color-list">
             {doctors.map((d) => (
               <li key={d.id}>
-                <input type="color" aria-label={`Colore ${d.nome || 'dottore'}`} value={d.colore} onChange={(e) => updateDoctor(d.id, { colore: e.target.value })} />
                 <input className="grow" placeholder="Nome del dottore (es. Dott.ssa Rossi)" value={d.nome} onChange={(e) => updateDoctor(d.id, { nome: e.target.value })} />
                 <button type="button" className="danger" onClick={() => removeDoctor(d.id)}>
                   Rimuovi
                 </button>
+                <div className="full">
+                  <Swatches label={`Colore ${d.nome || 'dottore'}`} value={d.colore} onChange={(hex) => updateDoctor(d.id, { colore: hex })} />
+                </div>
               </li>
             ))}
           </ul>

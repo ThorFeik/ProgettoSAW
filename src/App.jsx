@@ -64,7 +64,7 @@ export default function App() {
         </div>
         <nav aria-label="Sezioni">
           <button className={tab === 'appointments' ? 'on' : ''} onClick={() => setTab('appointments')}>
-            Agenda
+            Appuntamenti
           </button>
           <button className={tab === 'patients' ? 'on' : ''} onClick={() => setTab('patients')}>
             Pazienti
