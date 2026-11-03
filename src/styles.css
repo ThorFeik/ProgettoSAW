@@ -178,3 +178,10 @@ button.round { width: 2.2rem; height: 2.2rem; padding: 0; border-radius: 50%; fo
 .color-list .label { min-width: 7.5rem; font-weight: 600; }
 .color-list .grow { min-width: 12rem; }
 .color-list .full { flex: 1 1 100%; }
+
+/* Notifiche */
+.notif { display: flex; align-items: center; gap: .4rem; }
+.notif-note { font-size: .85rem; color: #cfe6e8; }
+.topbar select { width: auto; padding: .35rem .5rem; background: rgba(255, 255, 255, .12); color: #fff; border: 1px solid rgba(255, 255, 255, .35); border-radius: 8px; }
+.topbar select option { color: var(--ink); background: var(--panel); }
+.who .ghost { padding: .4rem .8rem; }

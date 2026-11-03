@@ -8,6 +8,8 @@ import Login from './components/Login'
 import Patients from './components/Patients'
 import Appointments from './components/Appointments'
 import Settings from './components/Settings'
+import useNotifications from './useNotifications'
+import NotificationControl from './components/NotificationControl'
 
 export default function App() {
   const [user, setUser] = useState(undefined) // undefined = in caricamento
@@ -17,6 +19,7 @@ export default function App() {
   const [settings, setSettings] = useState(mergeSettings())
   const [role, setRole] = useState('staff')
   const online = useOnline()
+  const notif = useNotifications(appointments, settings)
 
   useEffect(() => onAuthStateChanged(auth, setUser), [])
 
@@ -76,6 +79,7 @@ export default function App() {
           )}
         </nav>
         <div className="who">
+          <NotificationControl n={notif} />
           <span className="email">{user.email}{isAdmin ? ' · admin' : ''}</span>
           <button className="ghost" onClick={() => signOut(auth)}>
             Esci

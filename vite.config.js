@@ -7,7 +7,14 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
+      // Service worker scritto da noi in src/sw.js (cache, pagina offline, notifiche)
+      strategies: 'injectManifest',
+      srcDir: 'src',
+      filename: 'sw.js',
       includeAssets: ['icon.svg', 'offline.html'],
+      injectManifest: {
+        globPatterns: ['**/*.{js,css,html,svg,png}']
+      },
       manifest: {
         name: 'Studio Dentistico – Gestionale',
         short_name: 'Studio',
@@ -22,11 +29,6 @@ export default defineConfig({
           { src: 'icon-512.png', sizes: '512x512', type: 'image/png' },
           { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
         ]
-      },
-      workbox: {
-        // Se la pagina non è in cache e manca la rete, mostra la pagina offline
-        navigateFallback: '/index.html',
-        globPatterns: ['**/*.{js,css,html,svg,png}']
       }
     })
   ]
