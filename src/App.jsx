@@ -74,10 +74,12 @@ export default function App() {
     <div className="shell">
       <header className="topbar">
         <div className="brand">
-          <svg viewBox="0 0 512 512" width="28" height="28" aria-hidden="true">
-            <rect width="512" height="512" rx="110" fill="#f4f8f8" />
-            <path d="M256 120c-34-28-96-22-118 22-18 36-4 80 10 122 12 36 14 98 40 98 22 0 20-60 34-82 8-12 22-12 34-12s26 0 34 12c14 22 12 82 34 82 26 0 28-62 40-98 14-42 28-86 10-122-22-44-84-50-118-22z" fill="#14505c" />
-          </svg>
+          <img
+            src="/iconv2-192.png"
+            alt="Logo Studio Dentistico"
+            width="28" height="28"
+            style={{ objectFit: 'contain', borderRadius: '6px' }}
+          />
           <span>Studio Dentistico</span>
         </div>
         <nav aria-label="Sezioni">

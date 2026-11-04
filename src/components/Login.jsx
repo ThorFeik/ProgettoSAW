@@ -30,6 +30,7 @@ export default function Login({ online }) {
 
   return (
     <div className="login">
+      <img className="dentelogin" src="/Dente_login.png"/> 
       <div className="login-panel">
         <h1>Studio Dentistico</h1>
         <p className="muted">Accesso riservato al personale dello studio.</p>

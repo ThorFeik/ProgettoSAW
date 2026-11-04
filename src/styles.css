@@ -38,6 +38,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--teal-2); }
 
 /* Login */
 .login { min-height: 100vh; display: grid; place-items: center; padding: 1rem; background: linear-gradient(160deg, var(--teal) 0 38%, var(--bg) 38%); }
+.dentelogin {position: absolute; right: 5%; bottom: 5%; width: min(35vw, 450px); opacity: 0.48; pointer-events: none;}
 .login-panel { background: var(--panel); border-radius: 14px; padding: 2rem; width: min(400px, 100%); display: grid; gap: .75rem; box-shadow: 0 10px 40px rgba(20, 80, 92, .18); }
 .login-panel form { display: grid; gap: .9rem; margin-top: .5rem; }
 .login-panel button.primary { padding: .75rem; }
