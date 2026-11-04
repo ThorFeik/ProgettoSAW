@@ -185,3 +185,7 @@ button.round { width: 2.2rem; height: 2.2rem; padding: 0; border-radius: 50%; fo
 .topbar select { width: auto; padding: .35rem .5rem; background: rgba(255, 255, 255, .12); color: #fff; border: 1px solid rgba(255, 255, 255, .35); border-radius: 8px; }
 .topbar select option { color: var(--ink); background: var(--panel); }
 .who .ghost { padding: .4rem .8rem; }
+
+/* Errore di lettura dati: distinto dall'avviso di cache offline */
+.data-error { padding: .8rem 1.2rem; background: #fff0ed; color: #852b20; border-bottom: 1px solid #e9b6aa; }
+.data-error button { margin-left: 1rem; cursor: pointer; }

@@ -18,21 +18,33 @@ export default function App() {
   const [appointments, setAppointments] = useState([])
   const [settings, setSettings] = useState(mergeSettings())
   const [role, setRole] = useState('staff')
+  const [sync, setSync] = useState({ patients: null, appointments: null, settings: null })
+  const [dataError, setDataError] = useState('')
   const online = useOnline()
   const notif = useNotifications(appointments, settings)
 
   useEffect(() => onAuthStateChanged(auth, setUser), [])
 
   useEffect(() => {
-    if (!user) return
-    const unsubP = onSnapshot(query(collection(db, 'patients'), orderBy('cognome')), (s) =>
-      setPatients(s.docs.map((d) => ({ id: d.id, ...d.data() })))
-    )
-    const unsubA = onSnapshot(query(collection(db, 'appointments'), orderBy('start')), (s) =>
-      setAppointments(s.docs.map((d) => ({ id: d.id, ...d.data() })))
-    )
+    if (!user) {
+      setPatients([]); setAppointments([]); setSync({ patients: null, appointments: null, settings: null });
+      setRole('staff'); setDataError('');
+      return
+    }
+    const track = (name, snapshot) => setSync((prev) => ({ ...prev, [name]: {
+      fromCache: snapshot.metadata.fromCache, pending: snapshot.metadata.hasPendingWrites
+    } }))
+    const fail = (label) => (err) => {
+      console.error(label, err)
+      setDataError(`Impossibile leggere ${label}: ${err.message}`)
+    }
+    const unsubP = onSnapshot(query(collection(db, 'patients'), orderBy('cognome')), { includeMetadataChanges: true },
+      (s) => { setPatients(s.docs.map((d) => ({ id: d.id, ...d.data() }))); track('patients', s) }, fail('i pazienti'))
+    const unsubA = onSnapshot(query(collection(db, 'appointments'), orderBy('start')), { includeMetadataChanges: true },
+      (s) => { setAppointments(s.docs.map((d) => ({ id: d.id, ...d.data() }))); track('appointments', s) }, fail('gli appuntamenti'))
     // Impostazioni dello studio (colori, dottori)
-    const unsubS = onSnapshot(doc(db, 'settings', 'studio'), (s) => setSettings(mergeSettings(s.data())))
+    const unsubS = onSnapshot(doc(db, 'settings', 'studio'), { includeMetadataChanges: true },
+      (s) => { setSettings(mergeSettings(s.data())); track('settings', s) }, fail('le impostazioni'))
     // Ruolo dell'utente: documento users/{uid} con campo "ruolo" ('admin' | 'staff')
     const unsubR = onSnapshot(
       doc(db, 'users', user.uid),
@@ -48,6 +60,9 @@ export default function App() {
   }, [user])
 
   const isAdmin = role === 'admin'
+  const pending = Object.values(sync).some((v) => v?.pending)
+  const cached = Object.values(sync).some((v) => v?.fromCache)
+  const noCachedData = !online && sync.patients === null && sync.appointments === null
   useEffect(() => {
     if (!isAdmin && tab === 'settings') setTab('appointments')
   }, [isAdmin, tab])
@@ -87,11 +102,15 @@ export default function App() {
         </div>
       </header>
 
-      {!online && (
+      {(!online || cached || pending) && (
         <div className="offline-banner" role="status">
-          Sei offline: stai vedendo i dati salvati sul dispositivo. Le modifiche si sincronizzeranno al ritorno della connessione.
+          {!online ? 'Connessione assente. ' : cached ? 'Dati dalla cache locale. ' : ''}
+          {pending ? 'Ci sono modifiche locali in attesa di conferma dal server. ' : ''}
+          {noCachedData ? 'Se è il primo accesso su questo dispositivo, i dati potrebbero non essere disponibili. ' : ''}
+          {!pending && !online ? 'Le modifiche effettuate qui saranno sincronizzate quando Firestore tornerà raggiungibile.' : ''}
         </div>
       )}
+      {dataError && <div className="data-error" role="alert">{dataError} <button onClick={() => setDataError('')}>Chiudi</button></div>}
 
       <main>
         {tab === 'appointments' && (

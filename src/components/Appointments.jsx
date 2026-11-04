@@ -86,6 +86,11 @@ export default function Appointments({ patients, appointments, settings, online 
   }
 
   function persist(form) {
+    const duration = Number(form.durata)
+    if (!Number.isInteger(duration) || duration < 15 || duration > 480 || duration % 15 !== 0) {
+      alert('La durata deve essere compresa tra 15 e 480 minuti, a intervalli di 15 minuti.')
+      return
+    }
     const p = patientOf(form.patientId)
     const clash = overlaps(form)
     if (clash.length && !confirm(`Questo orario si sovrappone a ${clash.length} appuntamento/i. Salvare comunque?`)) return
@@ -94,13 +99,13 @@ export default function Appointments({ patients, appointments, settings, online 
       patientName: p ? `${p.cognome} ${p.nome}` : '',
       doctorId: form.doctorId,
       start: `${form.data}T${form.ora}`,
-      durata: Number(form.durata),
+      durata: duration,
       trattamento: form.trattamento,
       stato: form.stato,
       note: form.note
     }
-    if (form.id) updateDoc(doc(db, 'appointments', form.id), data).catch(console.error)
-    else addDoc(collection(db, 'appointments'), { ...data, creatoIl: serverTimestamp() }).catch(console.error)
+    if (form.id) updateDoc(doc(db, 'appointments', form.id), data).catch((err) => { console.error(err); alert('Modifica non accettata da Firestore: ' + err.message) })
+    else addDoc(collection(db, 'appointments'), { ...data, creatoIl: serverTimestamp() }).catch((err) => { console.error(err); alert('Modifica non accettata da Firestore: ' + err.message) })
     setEditing(null)
   }
 
@@ -114,7 +119,7 @@ export default function Appointments({ patients, appointments, settings, online 
 
   function remove() {
     if (!confirm('Eliminare questo appuntamento?')) return
-    deleteDoc(doc(db, 'appointments', editing.id)).catch(console.error)
+    deleteDoc(doc(db, 'appointments', editing.id)).catch((err) => { console.error(err); alert('Modifica non accettata da Firestore: ' + err.message) })
     setEditing(null)
   }
 
@@ -199,7 +204,7 @@ export default function Appointments({ patients, appointments, settings, online 
             <div className="grid3">
               <label>Data<input type="date" required value={editing.data} onChange={set('data')} /></label>
               <label>Ora<input type="time" required step="900" value={editing.ora} onChange={set('ora')} /></label>
-              <label>Durata (min)<input type="number" min="15" step="15" required value={editing.durata} onChange={set('durata')} /></label>
+              <label>Durata (min)<input type="number" min="15" max="480" step="15" required value={editing.durata} onChange={set('durata')} /></label>
             </div>
             <div className="grid2">
               <label>Trattamento
