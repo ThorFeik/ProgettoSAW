@@ -62,7 +62,7 @@ export default function Settings({ settings }) {
       <form className="settings" onSubmit={save}>
         <div className="card">
           <h3>Colori degli stati</h3>
-          <p className="muted">Il colore dello stato tinge la scheda dell’appuntamento in agenda.</p>
+          <p className="muted">Il colore dello stato cambia colore alla scheda dell’appuntamento in agenda.</p>
           <ul className="color-list">
             {STATI.map((s) => (
               <li key={s}>

@@ -37,7 +37,7 @@ export async function sendEmailReminder(appt, patient) {
   if (!res.ok) throw new Error(`Invio non riuscito (${res.status})`)
 }
 
-// API esterna 2: link WhatsApp (wa.me) con messaggio precompilato
+//link WhatsApp (wa.me) con messaggio precompilato
 export function whatsappLink(appt, patient) {
   if (!patient?.telefono) return null
   const { date, time } = when(appt)
