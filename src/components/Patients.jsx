@@ -3,6 +3,8 @@ import { addDoc, collection, deleteDoc, doc, serverTimestamp, updateDoc } from '
 import { db } from '../firebase'
 
 const validPhone = (value) => !value || /^\+?[0-9 ]+$/.test(value) && (value.match(/\d/g) || []).length >= 6 && (value.match(/\d/g) || []).length <= 15
+const normalizePhone = (value) => (value || '').replace(/\D/g, '')
+const normalizeEmail = (value) => (value || '').trim().toLowerCase()
 const validEmail = (value) => !value || (value.length <= 254 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value))
 
 const empty = { nome: '', cognome: '', dataNascita: '', telefono: '', email: '', note: '' }
@@ -27,6 +29,20 @@ export default function Patients({ patients, appointments }) {
     e.preventDefault()
     if (!validPhone(editing.telefono.trim())) { alert('Inserisci un telefono valido (6-15 cifre, spazi e + opzionale).'); return }
     if (!validEmail(editing.email.trim())) { alert('Inserisci un indirizzo email valido (massimo 254 caratteri).'); return }
+    const phone = normalizePhone(editing.telefono)
+    const email = normalizeEmail(editing.email)
+    const duplicate = patients.find((p) => p.id !== editing.id && (
+      (phone && normalizePhone(p.telefono) === phone) ||
+      (email && normalizeEmail(p.email) === email)
+    ))
+    if (duplicate) {
+      const fields = [
+        phone && normalizePhone(duplicate.telefono) === phone ? 'numero di telefono' : null,
+        email && normalizeEmail(duplicate.email) === email ? 'indirizzo email' : null
+      ].filter(Boolean).join(' e ')
+      alert(`Esiste già un paziente (${duplicate.cognome} ${duplicate.nome}) con lo stesso ${fields}. Controlla la scheda prima di salvare.`)
+      return
+    }
     const { id, ...data } = { ...editing, telefono: editing.telefono.trim(), email: editing.email.trim() }
     // Niente await: offline la scrittura resta in coda e si sincronizza dopo
     if (id) updateDoc(doc(db, 'patients', id), data).catch((err) => { console.error(err); alert('Modifica non accettata da Firestore: ' + err.message) })

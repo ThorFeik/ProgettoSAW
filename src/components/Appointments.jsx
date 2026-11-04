@@ -91,6 +91,16 @@ export default function Appointments({ patients, appointments, settings, online 
       alert('La durata deve essere compresa tra 15 e 480 minuti, a intervalli di 15 minuti.')
       return
     }
+    const selectedStart = `${form.data}T${form.ora}`
+    const now = new Date()
+    const localNow = `${toDateKey(now)}T${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`
+    const original = form.id ? appointments.find((a) => a.id === form.id) : null
+    // Gli appuntamenti storici possono essere modificati senza cambiare la data/ora.
+    // Impedisce invece di creare o spostare un appuntamento nel passato.
+    if (selectedStart < localNow && (!form.id || !original || original.start.slice(0, 16) !== selectedStart)) {
+      alert('Non puoi creare o spostare un appuntamento nel passato. Seleziona una data e un orario futuri.')
+      return
+    }
     const p = patientOf(form.patientId)
     const clash = overlaps(form)
     if (clash.length && !confirm(`Questo orario si sovrappone a ${clash.length} appuntamento/i. Salvare comunque?`)) return
