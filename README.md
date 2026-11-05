@@ -15,10 +15,21 @@ Web app per la gestione di pazienti e appuntamenti di uno studio dentistico.
 
 
 # Credenziali di test
-Ruolo Admin: utente: Admin@admin.com psw: admin1234
-Ruolo User: utente: dottore@dottore.com psw: dottore1234
+Ruolo Admin:
+```bash
+utente: Admin@admin.com 
+psw: admin1234
+```
+Ruolo User:
+
+```bash
+utente: dottore@dottore.com 
+psw: dottore1234
+```
 
 Il ruolo admin può vedere la scheda impostazioni per modificare qualche opzione, l'user semplice no
+
+# Installazione e avvio
 
 Per installare le dipendenza
 
