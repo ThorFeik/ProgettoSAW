@@ -5,7 +5,7 @@ Web app per la gestione di pazienti e appuntamenti di uno studio dentistico.
 # Funzionalità
 - Login riservato tramite account creati in precedenza
 - Elenco Pazienti con ricerca, creazione, modifica, eliminazione
-- Agenda settimanale: inserimento, modifica, cancellazione, stati degli appuntamenti (programmato/confermato/completato/annullato)
+- Agenda settimanale: inserimento, modifica, cancellazione, stati degli appuntamenti (programmato/confermato/completato/annullato) ((per poter creare un appuntamento bisogna prima creare un paziente))
 - Dottori: ogni appuntamento può essere assegnato a un dottore, i dottori vengono creati dalla scheda impostazioni accessibile solo agli admin
 - Stati con colore personalizzabile: Programmato, Confermato, Rimandato, Completato, Annullato
 - Impostazioni (solo account admin): colori degli stati, elenco e colori dei dottori
