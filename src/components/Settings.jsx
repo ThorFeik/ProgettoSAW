@@ -3,7 +3,7 @@ import { doc, setDoc } from 'firebase/firestore'
 import { db } from '../firebase'
 import { COLOR_PALETTE, DEFAULT_STATUS_COLORS, DOCTOR_PALETTE, STATI } from '../settings'
 
-// Selettore a colori campione (cerchi cliccabili)
+// Selettore a colori campione
 function Swatches({ value, onChange, label }) {
   // Se il colore salvato non è nella tavolozza (es. impostato in passato) lo mostra come "Personalizzato"
   const options = COLOR_PALETTE.some((c) => c.hex === value) ? COLOR_PALETTE : [...COLOR_PALETTE, { hex: value, nome: 'Personalizzato' }]
@@ -26,7 +26,7 @@ function Swatches({ value, onChange, label }) {
   )
 }
 
-// Visibile solo agli account admin (e scrivibile solo da loro: vedi firestore.rules)
+// Visibile solo agli account admin 
 export default function Settings({ settings }) {
   const [colors, setColors] = useState(settings.statusColors)
   const [doctors, setDoctors] = useState(settings.doctors)

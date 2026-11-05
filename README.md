@@ -1,15 +1,15 @@
-# Studio Dentistico – Gestionale 
+# Gestionale Studio Dentistico
 
 Web app per la gestione di pazienti e appuntamenti di uno studio dentistico.
 
 # Funzionalità
 - Login riservato tramite account creati in precedenza
-- Elecon Pazienti con ricerca, creazione, modifica, eliminazione
+- Elenco Pazienti con ricerca, creazione, modifica, eliminazione
 - Agenda settimanale: inserimento, modifica, cancellazione, stati degli appuntamenti (programmato/confermato/completato/annullato)
-- Dottori: ogni appuntamento può essere assegnato a un dottore
+- Dottori: ogni appuntamento può essere assegnato a un dottore, i dottori vengono creati dalla scheda impostazioni accessibile solo agli admin
 - Stati con colore personalizzabile: Programmato, Confermato, Rimandato, Completato, Annullato
 - Impostazioni (solo account admin): colori degli stati, elenco e colori dei dottori
-- Promemoria all'appuntamento: email (EmailJS) o WhatsApp (per ora apre web con messaggio prefissato, non è automatico)
+- Promemoria all'appuntamento: email (EmailJS) o WhatsApp (apre whatsapp web con messaggio precompilato, non è automatico)
 - Offline: dati già caricati consultabili e modificabili; le modifiche si sincronizzano al ritorno della rete
 
 
@@ -19,3 +19,23 @@ Ruolo Admin: utente: Admin@admin.com psw: admin1234
 Ruolo User: utente: dottore@dottore.com psw: dottore1234
 
 Il ruolo admin può vedere la scheda impostazioni per modificare qualche opzione, l'user semplice no
+
+Per installare le dipendenza
+
+```bash
+npm install
+```
+Inserire nella cartella principale del progetto il file .env
+
+Per avviare il progetto:
+
+```bash
+npm run dev
+```
+Aprire nel browser l'indirizzo locale indicato dal terminale.
+
+Versione online
+
+L'applicazione è disponibile anche tramite Firebase Hosting.
+
+Link: https://sawprogetto-8cc83.web.app

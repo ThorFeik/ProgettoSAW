@@ -12,7 +12,7 @@ export const emailConfigured = Boolean(cfg.service && cfg.template && cfg.key)
 
 const when = (appt) => ({ date: formatLong(appt.start.slice(0, 10)), time: appt.start.slice(11, 16) })
 
-// API esterna 1: EmailJS (REST) – invia un'email di promemoria al paziente
+//tramite EmailJS invia un'email di promemoria al paziente
 export async function sendEmailReminder(appt, patient) {
   if (!emailConfigured) throw new Error('EmailJS non configurato (vedi .env)')
   if (!patient?.email) throw new Error('Il paziente non ha un indirizzo email')

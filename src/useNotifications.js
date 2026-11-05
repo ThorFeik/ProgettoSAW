@@ -29,7 +29,7 @@ export default function useNotifications(appointments, settings) {
   const [lead, setLeadState] = useState(() => Number(read(KEY_LEAD, '15')))
   const enabled = supported && permission === 'granted' && on
 
-  // Il permesso si chiede solo quando l'utente preme il pulsante (richiesta contestuale)
+  // Il permesso si chiede solo quando l'utente preme il pulsante
   const enable = useCallback(async () => {
     if (!supported) return
     const result = await Notification.requestPermission()

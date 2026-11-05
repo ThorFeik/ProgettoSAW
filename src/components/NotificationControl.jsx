@@ -1,4 +1,4 @@
-// Pulsanti per attivare, provare e configurare le notifiche (mostrati nella barra in alto)
+// Pulsanti per attivare e provare le notifiche
 export default function NotificationControl({ n }) {
   if (!n.supported) return null
 

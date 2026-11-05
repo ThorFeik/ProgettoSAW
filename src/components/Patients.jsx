@@ -11,7 +11,7 @@ const empty = { nome: '', cognome: '', dataNascita: '', telefono: '', email: '',
 
 export default function Patients({ patients, appointments }) {
   const [search, setSearch] = useState('')
-  const [editing, setEditing] = useState(null) // null | {id?, ...campi}
+  const [editing, setEditing] = useState(null)
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase()

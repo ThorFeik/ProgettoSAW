@@ -22,7 +22,6 @@ export const formatDay = (d) =>
 export const formatLong = (key) =>
   new Date(key + 'T00:00:00').toLocaleDateString('it-IT', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' })
 
-// "start" è salvato come stringa locale "YYYY-MM-DDTHH:mm"
 export const minutesOf = (start) => {
   const [h, m] = start.slice(11, 16).split(':').map(Number)
   return h * 60 + m

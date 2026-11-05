@@ -1,4 +1,3 @@
-/* Service worker personalizzato (vite-plugin-pwa, strategia injectManifest) */
 import { clientsClaim } from 'workbox-core'
 import { cleanupOutdatedCaches, createHandlerBoundToURL, matchPrecache, precacheAndRoute } from 'workbox-precaching'
 import { NavigationRoute, registerRoute, setCatchHandler } from 'workbox-routing'
@@ -11,10 +10,10 @@ clientsClaim()
 cleanupOutdatedCaches()
 precacheAndRoute(self.__WB_MANIFEST)
 
-// App shell: ogni navigazione serve index.html dalla cache (single page application)
+// Ogni navigazione serve index.html dalla cache
 registerRoute(new NavigationRoute(createHandlerBoundToURL('/index.html')))
 
-// Pagina offline di fallback: se una navigazione fallisce si mostra offline.html (precachata)
+// Se una navigazione fallisce si mostra offline.html
 setCatchHandler(async ({ request }) => {
   if (request.destination === 'document') {
     return (await matchPrecache('/offline.html')) || Response.error()
